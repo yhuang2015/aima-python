@@ -1,5 +1,6 @@
 import search
 from math import(cos, pi)
+import math
 
 # A sample map problem
 sumner_map = search.UndirectedGraph(dict(
@@ -210,3 +211,90 @@ mySearchMethods = [
 #     LRM_puzzle,
 #     switch_puzzle,
 # ]
+
+class PathFinding(search.Problem):
+
+    def __init__(self, maze, start, goal, sword):
+        self.maze = maze
+        self.start = start
+        self.goal = goal
+        self.sword = sword
+        self.initial = maze
+
+
+    def actions(self, state):
+        possible_move = []
+        movementstring = ''
+        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
+            next_position = (state[0] + new_position[0], state[1] + new_position[1])
+            if not(next_position[0] > (len(maze) - 1)
+                   or next_position[0] < 0
+                   or next_position[1] > (len(maze[len(maze)-1]) -1)
+                   or next_position[1] < 0
+                   or maze[next_position[0]][next_position[1]] == 2
+                   or ((maze[state[0]][state[1]] == 1) and (self.sword == False))):
+                movementstring = str(state[0]) + ',' + str(state[1])
+                possible_move.append(next_position)
+        return possible_move
+
+
+    def result(self, state, action):
+        if maze[state[0]][state[1]] == -1:
+            self.sword = True
+        return str(state) + ',' + str(state[0])
+
+    def heuristic(a, b, bag):
+        (x1, y1) = a
+        (x2, y2) = b
+        if bag == True:
+            return math.sqrt(abs(x1 - x2) + abs(y1 - y2))
+        else:
+            return abs(x1 - x2) + abs(y1 - y2)
+
+    def path_cost(self, c, state1, action, state2):
+        cost = self.heuristic(state1, goal, sword)
+        return c + cost
+
+    def goal_test(self, state):
+        return state == self.goal
+
+    def h(self, node):
+        state = node.state
+        if self.goal_test(state):
+            return 0
+        else:
+            return 1
+
+maze1 = [['.', '.', '.', '.', '2', '.', '.', '.', '.', '.'],
+        ['.', '.', '-1', '.', '2', '.', '.', '.', '.', '.'],
+        ['.', '.', '.', '.', '2', '.', '.', '.', '.', '.'],
+        ['.', '.', '.', '.', '1', '.', '.', '.', '.', '.'],
+        ['.', '.', '.', '.', '2', '.', '.', '.', '.', '.'],
+        ['.', '.', '.', '.', '2', '.', '.', '.', '.', '.'],
+        ['.', '.', '.', '.', '1', '.', '.', '.', '.', '.'],
+        ['.', '.', '.', '.', '2', '.', '.', '.', '.', '.'],
+        ['.', '.', '.', '.', '1', '.', '.', '.', '.', '.'],
+        ['.', '.', '.', '.', '.', '.', '.', '.', '.', '.']]
+
+maze = [[0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+        [0, 0, -1, 0, 2, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 2, 0, 0, 2, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+start = (0,0)
+goal = (6,8)
+sword = False
+
+PathFinding_puzzle = PathFinding(maze, start, goal, sword)
+PathFinding_puzzle.label = 'PathFinding Puzzle'
+
+mySearches = [
+    PathFinding_puzzle,
+    switch_puzzle,
+]
