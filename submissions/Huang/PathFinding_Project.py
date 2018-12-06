@@ -105,11 +105,11 @@ def astar(maze, start, end):
 def main():
 
     maze = [[0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-            [0, 0, -1, 0, 2, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+            [0, 0, -1, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
             [0, 2, 0, 0, 2, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
@@ -118,12 +118,26 @@ def main():
     start = (0, 0)
     end = (6, 8)
 
+    print('Start Point X Coordinate:')
+    startX = int(input())
+    print('Start Point Y Coordinate:')
+    startY = int(input())
+    print('Goal X Coordinate:')
+    endX = int(input())
+    print('Goal Y Coordinate:')
+    endY = int(input())
+
+    start = (startX, startY)
+    end = (endX, endY)
+
     mazepath = maze
     path = astar(maze, start, end)
     for position in path:
-        mazepath[position[0]][position[1]] = '.'
+        mazepath[position[0]][position[1]] = ''
     for i in range(len(mazepath[1])):
-        print(mazepath[i])
+        print(str(mazepath[i]).strip("\."))
+
+    print(path)
 
 
 if __name__ == '__main__':
