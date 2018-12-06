@@ -7,13 +7,11 @@ from math import inf
 import math
 
 class PathFinding(search.Problem):
-    def __init__(self, start, goal, sword):
+    def __init__(self, maze, start, goal, sword):
+        self.maze = maze
         self.start = start
         self.goal = goal
         self.sword = sword
-        open_list = []
-        closed_list = []
-        open_list.append(start)
 
     def actions(self, state):
         return [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]
@@ -61,23 +59,26 @@ class PathFinding(search.Problem):
         return path[::-1]
 
 
-maze = [[0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-        [0, 0, -1, 0, 2, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-        [0, 2, 0, 0, 2, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-start = (0,0)
-goal = (6,8)
-sword = False
 
-PathFinding_puzzle = PathFinding(start, goal, sword)
+def main():
 
-mySearches = [
-    PathFinding_puzzle
-]
+    maze = [[0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+            [0, 0, -1, 0, 2, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 2, 0, 0, 2, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+    start = (0, 0)
+    end = (6, 8)
+    sword = False
+    PathFinding(maze, start, end, sword)
+
+
+if __name__ == '__main__':
+    main()

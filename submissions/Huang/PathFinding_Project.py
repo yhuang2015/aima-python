@@ -118,8 +118,12 @@ def main():
     start = (0, 0)
     end = (0, 9)
 
+    mazepath = maze
     path = astar(maze, start, end)
-    print(path)
+    for position in path:
+        mazepath[position[0]][position[1]] = '.'
+    for i in range(len(mazepath[1])):
+        print(mazepath[i])
 
 
 if __name__ == '__main__':
